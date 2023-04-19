@@ -17,7 +17,15 @@ const uiConfig = {
 
 const Auth = () => {
     return (
-        <div>
+        <div
+            style={{
+                maxWidth: "320px",
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
+        >
             <h1>Pineapple Login</h1>
             <p>Please sign-in:</p>
             <SyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
