@@ -63,16 +63,31 @@ export default function Home() {
                     'linear-gradient(100deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%',
             }}
             >
-                <button 
-                    style={{ fontSize: 32, marginRight: 8 }}
-                    onClick={() => addVoteDocument("yes")}>
-                    ✔️🍍🍕
-                </button>
-                <button 
-                    style={{ fontSize: 32, marginLeft: 8 }}
-                    onClick={() => addVoteDocument("no")}>
-                        ❌🍍🍕
-                </button>
+                <h1>Pineapple on Pizza?</h1>
+                <div style={{ flexDirection: "row", display: "flex" }}>
+                    <button 
+                        style={{ fontSize: 32, marginRight: 8 }}
+                        onClick={() => addVoteDocument("yes")}>
+                        ✔️🍍🍕
+                    </button>
+                    <h3>
+                        Pineapple Lovers:{' '}
+                        {votes?.docs?.filter((doc) => doc.data().vote === "yes").length}
+                    </h3>
+                </div>
+
+                <div style={{ flexDirection: "row", display: "flex" }}>
+
+                    <button 
+                        style={{ fontSize: 32, marginLeft: 8 }}
+                        onClick={() => addVoteDocument("no")}>
+                            ❌🍍🍕
+                    </button>
+                    <h3>
+                        Pineapple Haters:{' '}
+                        {votes?.docs?.filter((doc) => doc.data().vote === "no").length}
+                    </h3>
+                </div>
             </div>
     )
 }
