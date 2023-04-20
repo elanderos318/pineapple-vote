@@ -41,10 +41,6 @@ export default function Home() {
     if (!votesLoading && votes) {
         votes?.docs.map((doc) => console.log(doc.data()))
     }
-
-    // if (authLoading) {
-    //     return <p>Loading...</p>;
-    //   }
     
     if (authError) {
         return <p>Error: {authError.message}</p>;
