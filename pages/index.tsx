@@ -2,6 +2,7 @@ import firebase from "firebase/compat/app"
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import { useCollection } from "react-firebase-hooks/firestore"
+import { useAuthState } from "react-firebase-hooks/auth"
 
 export default function Home() {  
     const clientCredentials = {
@@ -17,13 +18,35 @@ export default function Home() {
         firebase.initializeApp(clientCredentials);
     }
 
+    // Firestore
+    const db = firebase.firestore()
+
     const [votes, votesLoading, votesError ] = useCollection(
         firebase.firestore().collection("votes"),
         {}
     )
 
+      // Auth state
+    const [user, authLoading, authError] = useAuthState(firebase.auth());
+
+    // Create document function
+    const addVoteDocument = async (vote: string) => {
+        if (!user) return;
+        await db.collection("votes").doc(user.uid).set({
+            vote
+        })
+    }
+
     if (!votesLoading && votes) {
         votes?.docs.map((doc) => console.log(doc.data()))
+    }
+
+    if (authLoading) {
+        return <p>Loading...</p>;
+      }
+    
+    if (authError) {
+        return <p>Error: {authError.message}</p>;
     }
 
     return (
@@ -36,8 +59,16 @@ export default function Home() {
                 justifyContent: 'center',
             }}
             >
-                <button style={{ fontSize: 32, marginRight: 8 }}>yes</button>
-                <button style={{ fontSize: 32, marginLeft: 8 }}>no</button>
+                <button 
+                    style={{ fontSize: 32, marginRight: 8 }}
+                    onClick={() => addVoteDocument("yes")}>
+                    ✔️🍍🍕
+                </button>
+                <button 
+                    style={{ fontSize: 32, marginLeft: 8 }}
+                    onClick={() => addVoteDocument("no")}>
+                        ❌🍍🍕
+                </button>
             </div>
     )
 }
