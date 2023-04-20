@@ -3,6 +3,7 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import { useCollection } from "react-firebase-hooks/firestore"
 import { useAuthState } from "react-firebase-hooks/auth"
+import Auth from "../components/Auth"
 
 export default function Home() {  
     const clientCredentials = {
@@ -41,9 +42,9 @@ export default function Home() {
         votes?.docs.map((doc) => console.log(doc.data()))
     }
 
-    if (authLoading) {
-        return <p>Loading...</p>;
-      }
+    // if (authLoading) {
+    //     return <p>Loading...</p>;
+    //   }
     
     if (authError) {
         return <p>Error: {authError.message}</p>;
@@ -63,31 +64,37 @@ export default function Home() {
                     'linear-gradient(100deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%',
             }}
             >
-                <h1>Pineapple on Pizza?</h1>
-                <div style={{ flexDirection: "row", display: "flex" }}>
-                    <button 
-                        style={{ fontSize: 32, marginRight: 8 }}
-                        onClick={() => addVoteDocument("yes")}>
-                        ✔️🍍🍕
-                    </button>
-                    <h3>
-                        Pineapple Lovers:{' '}
-                        {votes?.docs?.filter((doc) => doc.data().vote === "yes").length}
-                    </h3>
-                </div>
+                {authLoading && <h4>Loading...</h4>}
+                {!user && <Auth />}
+                {user && (
+                    <>
+                        <h1>Pineapple on Pizza?</h1>
+                        <div style={{ flexDirection: "row", display: "flex" }}>
+                            <button 
+                                style={{ fontSize: 32, marginRight: 8 }}
+                                onClick={() => addVoteDocument("yes")}>
+                                ✔️🍍🍕
+                            </button>
+                            <h3>
+                                Pineapple Lovers:{' '}
+                                {votes?.docs?.filter((doc) => doc.data().vote === "yes").length}
+                            </h3>
+                        </div>
 
-                <div style={{ flexDirection: "row", display: "flex" }}>
+                        <div style={{ flexDirection: "row", display: "flex" }}>
 
-                    <button 
-                        style={{ fontSize: 32, marginLeft: 8 }}
-                        onClick={() => addVoteDocument("no")}>
-                            ❌🍍🍕
-                    </button>
-                    <h3>
-                        Pineapple Haters:{' '}
-                        {votes?.docs?.filter((doc) => doc.data().vote === "no").length}
-                    </h3>
-                </div>
+                            <button 
+                                style={{ fontSize: 32, marginLeft: 8 }}
+                                onClick={() => addVoteDocument("no")}>
+                                    ❌🍍🍕
+                            </button>
+                            <h3>
+                                Pineapple Haters:{' '}
+                                {votes?.docs?.filter((doc) => doc.data().vote === "no").length}
+                            </h3>
+                        </div>
+                    </>
+                )}
             </div>
     )
 }
