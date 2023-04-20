@@ -57,6 +57,10 @@ export default function Home() {
                 width: "100vw",
                 alignItems: 'center',
                 justifyContent: 'center',
+                flexDirection: 'column',
+                gridGap: 8,
+                background:
+                    'linear-gradient(100deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%',
             }}
             >
                 <button 
